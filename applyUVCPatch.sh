@@ -1,8 +1,5 @@
 #!/bin/bash
-cd $HOME/librealsense
-INSTALLDIR=$PWD
+# Patch UVC RealSense camera format changes
 cd /usr/src/kernel
-sudo patch -p1 i- $INSTALLDIR/scripts/realsense-camera-formats.patch
-cd $INSTALLDIR
-echo $PWD
+sudo patch -p1 i- $HOME/librealsense/scripts/realsense-camera-formats.patch
 
