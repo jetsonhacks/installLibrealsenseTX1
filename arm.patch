@@ -1,0 +1,34 @@
+diff --git a/librealsense.qtcreator/realsense.pro b/librealsense.qtcreator/realsense.pro
+index 2fa334a..d186863 100644
+--- a/librealsense.qtcreator/realsense.pro
++++ b/librealsense.qtcreator/realsense.pro
+@@ -10,7 +10,7 @@ CONFIG += link_pkgconfig
+ PKGCONFIG += libusb-1.0
+ LIBS += -pthread
+ 
+-QMAKE_CXXFLAGS += -std=c++11 -fPIC -pedantic -mssse3 -g
++QMAKE_CXXFLAGS += -std=c++11 -fPIC -pedantic -g
+ QMAKE_CXXFLAGS += -Wno-missing-field-initializers -Wno-switch -Wno-multichar
+ QMAKE_CXXFLAGS += -D_FORTIFY_SOURCE=2 -fstack-protector-strong -Wformat -Wformat-security
+ QMAKE_CXXFLAGS += -z noexecstack -z relro -z now
+
+diff --git a/src/uvc-v4l2.cpp b/src/uvc-v4l2.cpp
+index 1cde638..4d69df6 100644
+--- a/src/uvc-v4l2.cpp
++++ b/src/uvc-v4l2.cpp
+@@ -247,15 +247,7 @@ namespace rsimpl
+                         buf.index = i;
+                         if(xioctl(fd, VIDIOC_QBUF, &buf) < 0) throw_error("VIDIOC_QBUF");
+                     }
+-
+                     v4l2_buf_type type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
+-                    for(int i=0; i<10; ++i)
+-                    {
+-                        if(xioctl(fd, VIDIOC_STREAMON, &type) < 0)
+-                        {
+-                            std::this_thread::sleep_for(std::chrono::milliseconds(100));
+-                        }
+-                    }
+                     if(xioctl(fd, VIDIOC_STREAMON, &type) < 0) throw_error("VIDIOC_STREAMON");
+ 
+                     is_capturing = true;
