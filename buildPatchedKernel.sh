@@ -4,11 +4,13 @@
 echo ""
 echo "This script will patch the UVC Video driver."
 echo "The script expects that the kernel sources have been downloaded and built beforehand."
+echo "The script expects the kernel sources to be in /usr/src/kernel"
 echo ""
 echo "The script patches the UVC Driver with the RealSense Camera formats,"
 echo "modifies the kernel .config file, and then compiles the kernel and modules"
 echo "Once finished, the script copies the kernel image to the boot directory."
-echo "Be careful, as this script *WILL* replace your current kernel"
+echo "Use caution, as this script *WILL* replace your current kernel with whatever is in"
+echo "/usr/src/kernel"
 echo ""
 read -p "Patch UVCVideo Driver, Recompile Kernel and Install? (Y/n) " RESP
 if [ "$RESP" = "Y" ]; then
@@ -17,9 +19,9 @@ else
   echo "Kernel changes cancelled"
   exit 1
 fi
-echo "Continue"
-exit 0
+# Start patch process
 cd /usr/src/kernel
+# Make sure that there's a config file
 file=".config"
 if [ -f "$file" ]
 then
@@ -31,7 +33,6 @@ else
 	exit 1
 fi
 sudo sed -i 's/.*CONFIG_USB_VIDEO_CLASS=.*/CONFIG_USB_VIDEO_CLASS=m/' .config
-exit 0
 sudo patch -p1 -i $HOME/librealsense/scripts/realsense-camera-formats.patch
 echo "Building Kernel ... "
 # Make the kernel and module to reflect UVC changes
@@ -44,7 +45,7 @@ sudo make modules_install
 echo "Copying images to boot directory"
 sudo cp arch/arm64/boot/zImage /boot/zImage
 sudo cp arch/arm64/boot/Image /boot/Image
-/bin/echo -e "\e[1;32mPlease reboot for changes to take effect.\e[0m"
+/bin/echo -e "\e[1;32mPlease reboot the machine for changes to take effect.\e[0m"
 
 
 
