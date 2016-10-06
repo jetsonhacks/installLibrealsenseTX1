@@ -5,7 +5,7 @@
 INSTALL_DIR=$PWD
 sudo apt-get install libusb-1.0-0-dev pkg-config -y
 sudo apt-get install libglfw3-dev -y
-sudo apt-get install qtcreator
+sudo apt-get install qtcreator -y
 # Install librealsense into home directory
 cd $HOME
 git clone https://github.com/IntelRealSense/librealsense.git
@@ -19,7 +19,6 @@ patch -p1 -i $INSTALL_DIR/arm.patch
 sudo scripts/install_qt.sh
 # Copy over the udev rules so that camera can be run from user space
 sudo cp config/99-realsense-libusb.rules /etc/udev/rules.d/
-# sudo cp config/uvc.conf /etc/modprobe.d/
 sudo udevadm control --reload-rules && udevadm trigger
 # Make and Install
 make -j4

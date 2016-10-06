@@ -49,4 +49,3 @@ sudo cp arch/arm64/boot/Image /boot/Image
 
 
 
-
