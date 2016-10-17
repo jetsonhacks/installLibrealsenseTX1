@@ -1,5 +1,5 @@
 # installLibrealsenseTX1
-Install lbrealsense for Intel RealSense cameras on Jetson TX1 Development Kit
+Install librealsense for Intel RealSense cameras on Jetson TX1 Development Kit
 
 In order to install the V4L2 version of the librealsense library on the Jetson TX1, a new kernel must be built. Please see:
 
